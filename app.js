@@ -1,18 +1,27 @@
-const http = require('http');
+/**
+ * Module dependencies.
+ */
+
 var express = require('express');
+var routes = require('./routes');
+var http = require('http');
+var path = require('path');
+
+// This should refer to the local React and gets installed via `npm install` in
+// the example.
+var reactViews = require('express-react-views');
+
 var app = express();
 
-app.get('/', function(req, res){
-    res.send('hello world');
-})
+// all environments
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jsx');
+app.engine('jsx', reactViews.createEngine());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/share', function(req, res){
-    res.send('share');
-})
+app.get('/', routes.index);
 
-app.get('/search', function(req,res){
-    res.send('search');
-})
-
-app.listen(3000);
-console.log("running hello world");
+http.createServer(app).listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'));
+});
