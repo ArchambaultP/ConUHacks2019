@@ -28,6 +28,7 @@ var typeTable = `CREATE TABLE ProduceType(
 
 var prodTable = `CREATE TABLE Produce(
 	id INT NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
     type_id INT NOT NULL,
     image varchar(255),
     isByWeight BOOLEAN NOT NULL,
@@ -55,6 +56,9 @@ INSERT INTO Accounts (email,pass,first_name,last_name,phone_number,address,city,
 var seedTypes = `
 INSERT INTO ProduceType (typeName) VALUES ('Vegetables'),('Fruit');
 `
+var seedProduce = 
+        `INSERT INTO Produce (name,type_id,image,isByWeight) VALUES ("Lettuce",1,null,1),("Cucumber",1,null,0),("Strawberry",2,null,0),("Blueberry",2,null,1);`
+
 
 con.connect(function(err) {
     if (err) throw err;
@@ -88,6 +92,11 @@ con.connect(function(err) {
                                 if(err) throw err;
                                 console.log("Inserted Types !");
                          
+                                con.query(seedProduces, function (err, result){
+                                    if(err) throw err;
+                                    console.log("Inserted Produce !");
+                         
+                                });
                             });
                         });
                     });
